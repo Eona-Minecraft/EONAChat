@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EonaChat">
+    <output-path>$PROJECT_DIR$/out/artifacts/EonaChat</output-path>
+    <root id="archive" name="EonaChat.jar">
+      <element id="module-output" name="EonaChat" />
+      <element id="library" level="project" name="guava-18.0" />
+      <element id="file-copy" path="$PROJECT_DIR$/EonaChat/plugin.yml" />
+    </root>
+  </artifact>
+</component>

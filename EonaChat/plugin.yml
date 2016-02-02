@@ -1,0 +1,8 @@
+name: EonaChat
+version: 0.1
+description: This plugin is so 31337. You can set yourself on fire.
+author: Bloodrayne1995
+authors: [Nuss9940]
+website: https://github.com/Eona-Minecraft/EONAChat
+
+main: main.EonaChat
