@@ -3,7 +3,7 @@ package main;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Created by Bloodrayne on 02.02.2016.
+ * Main Class
  */
 public class EonaChat extends JavaPlugin {
 
@@ -17,7 +17,6 @@ public class EonaChat extends JavaPlugin {
         getLogger().info("EonaMessageSenderReceiver initialisiert");
         eLsnr = new EonaListener(this);
         getLogger().info("EonaChatListener initialisiert");
-        super.onEnable();
     }
 
     @Override
@@ -25,7 +24,6 @@ public class EonaChat extends JavaPlugin {
         emsr = null;
         eLsnr = null;
         getLogger().info("EonaChat deaktiviert");
-        super.onDisable();
     }
 
     public EonaMessageSenderReceiver getEmsr() {

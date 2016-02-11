@@ -8,15 +8,15 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 
 /**
- * Created by Bloodrayne on 02.02.2016.
+ * Message Handling
  */
-public class EonaMessageSenderReceiver implements PluginMessageListener{
+public class EonaMessageSenderReceiver implements PluginMessageListener {
 
     private EonaChat plugin = null;
 
     public EonaMessageSenderReceiver(EonaChat pl){
         this.plugin = pl;
-        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin,"BungeeCord");
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
         plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", this);
     }
 
@@ -28,6 +28,9 @@ public class EonaMessageSenderReceiver implements PluginMessageListener{
         }
         ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
         String subchannel = in.readUTF();
+
+		System.out.println(subchannel);
+
         if(subchannel.equalsIgnoreCase("eonachat")){
 
             String from = in.readUTF();
@@ -37,6 +40,8 @@ public class EonaMessageSenderReceiver implements PluginMessageListener{
             msg.setMessage(message);
             msg.setFrom(from);
             String s = in.readUTF();
+            //IDE sagt always true, warscheinlich weil newDataInput() eine @NotNull Annotation hat
+			//       VVV
             while(s != null){
                 msg.getTo().add(s);
                 s = in.readUTF();

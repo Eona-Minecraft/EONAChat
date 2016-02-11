@@ -3,7 +3,7 @@ package main;
 import java.util.ArrayList;
 
 /**
- * Created by Bloodrayne on 02.02.2016.
+ * A Message
  */
 public class EonaMessage {
 

@@ -6,15 +6,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 /**
- * Created by Bloodrayne on 02.02.2016.
+ * Listens to AsyncPlayerChatEvent
  */
-public class EonaListener implements Listener{
+public class EonaListener implements Listener {
 
     private EonaChat plugin = null;
 
     public EonaListener(EonaChat pl){
         plugin = pl;
-        plugin.getServer().getPluginManager().registerEvents(this,plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -22,9 +22,8 @@ public class EonaListener implements Listener{
         if(!x.isCancelled()){
             EonaMessage m = new EonaMessage();
             String test = "";
-            for (Player p: x.getRecipients()
-                 ) {
-                test += p.getName() + ";";
+            for (Player p: x.getRecipients()) {
+                test += p.getName() + "; ";
             }
             plugin.getLogger().info("ChatEvent: " + test);
         }
