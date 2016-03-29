@@ -1,38 +1,54 @@
 package main;
 
-import java.util.ArrayList;
+
+import java.util.Set;
+
 
 /**
  * A Message
  */
-public class EonaMessage {
+class EonaMessage
+{
 
-    private String from = "";
-    private ArrayList<String> to = new ArrayList<String>();
-    private String message = "";
-
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
+private String from = "";
+private String message = "";
+private Set<String> to;
 
 
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+EonaMessage(String from, String message, Set<String> to)
+{
+	this.from = from;
+	this.message = message;
+	this.to = to;
+}
 
 
-    public ArrayList<String> getTo() {
-        return to;
-    }
+String getFrom()
+{
+	return from;
+}
 
+
+void setFrom(String from)
+{
+	this.from = from;
+}
+
+
+String getMessage()
+{
+	return message;
+}
+
+
+void setMessage(String message)
+{
+	this.message = message;
+}
+
+
+Set<String> getTo()
+{
+	return to;
+}
 }

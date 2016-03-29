@@ -2,11 +2,8 @@
   <artifact type="jar" build-on-make="true" name="EonaChat">
     <output-path>D:/Plugin/Eona-Test/plugins</output-path>
     <root id="archive" name="EonaChat.jar">
-      <element id="module-output" name="EonaChat" />
-      <element id="library" level="project" name="guava-18.0" />
       <element id="file-copy" path="$PROJECT_DIR$/EonaChat/plugin.yml" />
       <element id="module-output" name="EONAChat" />
-      <element id="library" level="project" name="spigot-api-1.8.8-R0.1-SNAPSHOT-shaded" />
     </root>
   </artifact>
 </component>

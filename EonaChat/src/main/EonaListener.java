@@ -1,33 +1,38 @@
 package main;
 
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 /**
  * Listens to AsyncPlayerChatEvent
  */
-public class EonaListener implements Listener {
+class EonaListener implements Listener
+{
 
-    private EonaChat plugin = null;
-
-    public EonaListener(EonaChat pl){
-        plugin = pl;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent x){
-        if(!x.isCancelled()){
-            EonaMessage m = new EonaMessage();
-            String test = "";
-            for (Player p: x.getRecipients()) {
-                test += p.getName() + "; ";
-            }
-            plugin.getLogger().info("ChatEvent: " + test);
-        }
-    }
+EonaListener(EonaChat pl)
+{
+	pl.getServer().getPluginManager().registerEvents(this, pl);
+}
 
 
+@EventHandler
+public void onChat(AsyncPlayerChatEvent e)
+{
+	if (!e.isCancelled())
+	{
+		Set<String> to = new HashSet<String>();
+		for (Player p : e.getRecipients())
+		{
+			to.add(p.getName());
+		}
+		EonaChat.getEmsr().handleOutGoingMessages(new EonaMessage(e.getPlayer().getDisplayName(), e.getMessage(), to));
+	}
+}
 }
