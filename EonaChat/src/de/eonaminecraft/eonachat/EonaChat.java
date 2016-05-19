@@ -1,7 +1,9 @@
-package main;
+package de.eonaminecraft.eonachat;
 
 
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 
 /**
@@ -10,12 +12,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class EonaChat extends JavaPlugin
 {
 
+static Logger log;
 private static BungeeChannel emsr = null;
+
+
+static void log(String msg)
+{
+	log.info(msg);
+}
+
+
+static BungeeChannel getEmsr()
+{
+	return emsr;
+}
 
 
 @Override
 public void onEnable()
 {
+	log = getLogger();
 	emsr = new BungeeChannel(this);
 	getLogger().info("BungeeChannel initialisiert");
 	new EonaListener(this);
@@ -28,11 +44,5 @@ public void onDisable()
 {
 	emsr = null;
 	getLogger().info("EonaChat deaktiviert");
-}
-
-
-static BungeeChannel getEmsr()
-{
-	return emsr;
 }
 }

@@ -1,13 +1,10 @@
-package main;
+package de.eonaminecraft.eonachat;
 
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -25,14 +22,16 @@ EonaListener(EonaChat pl)
 @EventHandler
 public void onChat(AsyncPlayerChatEvent e)
 {
+	EonaChat.log("Chat: " + e.getPlayer().getDisplayName() + " | " + e.getMessage());
+	for (Player r : e.getRecipients())
+	{
+		EonaChat.log("to: " + r.getDisplayName());
+	}
+
 	if (!e.isCancelled())
 	{
-		Set<String> to = new HashSet<String>();
-		for (Player p : e.getRecipients())
-		{
-			to.add(p.getName());
-		}
-		EonaChat.getEmsr().handleOutGoingMessages(new EonaMessage(e.getPlayer().getDisplayName(), e.getMessage(), to));
+		EonaChat.getEmsr().handleOutGoingMessages(new EonaMessage(e.getPlayer().getDisplayName(), e.getMessage(),
+				e.getRecipients().iterator().next().getDisplayName()));
 	}
 }
 }

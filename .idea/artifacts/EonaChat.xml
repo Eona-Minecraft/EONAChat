@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" build-on-make="true" name="EonaChat">
-    <output-path>D:/Plugin/Eona-Test/plugins</output-path>
+    <output-path>D:/Plugin/Eona-Test/Server/plugins</output-path>
     <root id="archive" name="EonaChat.jar">
       <element id="file-copy" path="$PROJECT_DIR$/EonaChat/plugin.yml" />
       <element id="module-output" name="EONAChat" />
