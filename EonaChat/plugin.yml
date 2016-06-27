@@ -1,8 +1,23 @@
 name: EonaChat
-version: 0.1
+version: 0.4
 description: This plugin is so 31337. You can set yourself on fire.
-author: Bloodrayne1995
-authors: [Nuss9940]
+author: Nuss9940
+authors: [Bloodrayne1995]
 website: https://github.com/Eona-Minecraft/EONAChat
-
 main: de.eonaminecraft.eonachat.EonaChat
+commands:
+  m:
+    description: Sendet eine private Nachricht an den angegebenen Spieler
+    usage: /<command> <player>
+  msg:
+    description: Sendet eine private Nachricht an den angegebenen Spieler
+    usage: /<command> <player>
+  w:
+    description: Sendet eine private Nachricht an den angegebenen Spieler
+    usage: /<command> <player>
+  whisper:
+    description: Sendet eine private Nachricht an den angegebenen Spieler
+    usage: /<command> <player>
+  tell:
+    description: Sendet eine private Nachricht an den angegebenen Spieler
+    usage: /<command> <player>

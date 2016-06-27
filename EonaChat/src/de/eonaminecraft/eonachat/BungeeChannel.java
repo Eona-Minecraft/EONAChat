@@ -1,6 +1,7 @@
 package de.eonaminecraft.eonachat;
 
 
+import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -55,10 +56,8 @@ public void onPluginMessageReceived(String channel, Player player, byte[] bytes)
 			EonaChat.log(from);
 			String message = msgin.readUTF();
 			EonaChat.log(message);
-			String to = msgin.readUTF();
-			EonaChat.log(to);
 
-			EonaMessage msg = new EonaMessage(from, message, to);
+			EonaMessage msg = new EonaMessage(from, message, null);
 			handleIncomingMessages(msg);
 		} catch (IOException e)
 		{
@@ -71,8 +70,16 @@ public void onPluginMessageReceived(String channel, Player player, byte[] bytes)
 void handleOutGoingMessages(EonaMessage m)
 {
 	ByteArrayDataOutput out = ByteStreams.newDataOutput();
-	out.writeUTF("Forward");
-	out.writeUTF("ALL");
+	if (m.getTo() == null)
+	{
+		out.writeUTF("Forward");
+		out.writeUTF("ALL");
+	} else
+	{
+		out.writeUTF("ForwardToPlayer");
+		out.writeUTF(m.getTo());
+	}
+
 	out.writeUTF("eonachat");
 
 	//Data Packet
@@ -82,7 +89,6 @@ void handleOutGoingMessages(EonaMessage m)
 	{
 		msgout.writeUTF(m.getFrom());
 		msgout.writeUTF(m.getMessage());
-		msgout.writeUTF(m.getTo());
 	} catch (IOException e)
 	{
 		EonaChat.log.warning(e.getMessage());
@@ -91,13 +97,21 @@ void handleOutGoingMessages(EonaMessage m)
 	out.writeShort(msgbytes.toByteArray().length);
 	out.write(msgbytes.toByteArray());
 
-	Bukkit.getPlayer(m.getFrom()).sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+	Player from = Bukkit.getPlayer(m.getFrom());
+	if (from == null)
+	{
+		from = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+		if (from != null) from.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+	} else
+	{
+		from.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+	}
 }
 
 
 private void handleIncomingMessages(EonaMessage m)
 {
-	if (m.getFrom().equals(m.getTo()))
+	if (m.getTo() == null)
 	{
 		for (Player p : Bukkit.getOnlinePlayers())
 		{

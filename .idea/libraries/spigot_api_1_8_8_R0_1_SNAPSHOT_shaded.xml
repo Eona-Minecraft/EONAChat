@@ -1,10 +1,12 @@
 <component name="libraryTable">
   <library name="spigot-api-1.8.8-R0.1-SNAPSHOT-shaded">
     <CLASSES>
-      <root url="jar://D:/Plugin/ServerData/spigot-api-1.8.8-R0.1-SNAPSHOT-shaded.jar!/" />
+      <root url="jar://D:/Plugin/lib/spigot-api-1.10-R0.1-SNAPSHOT-shaded.jar!/" />
+      <root url="jar://D:/Plugin/lib/bungeecord-api-1.10-20160627.042139-7.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="https://hub.spigotmc.org/javadocs/spigot/" />
+      <root url="jar://D:/Plugin/lib/bungeecord-api-1.10-20160627.042139-7-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>

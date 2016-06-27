@@ -30,8 +30,9 @@ public void onChat(AsyncPlayerChatEvent e)
 
 	if (!e.isCancelled())
 	{
-		EonaChat.getEmsr().handleOutGoingMessages(new EonaMessage(e.getPlayer().getDisplayName(), e.getMessage(),
-				e.getRecipients().iterator().next().getDisplayName()));
+		e.setMessage(BadWordsFilter.filter(e.getMessage()));
+		EonaChat.getBungeeChannel().handleOutGoingMessages(
+				new EonaMessage(e.getPlayer().getDisplayName(), e.getMessage(), null));
 	}
 }
 }
