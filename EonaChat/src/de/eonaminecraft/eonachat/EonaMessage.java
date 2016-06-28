@@ -17,6 +17,7 @@ EonaMessage(String from, String message, String to)
 	this.from = from;
 	this.message = message;
 	this.to = to;
+	EonaChat.log("New Message: " + from + " to " + to + " | " + message);
 }
 
 

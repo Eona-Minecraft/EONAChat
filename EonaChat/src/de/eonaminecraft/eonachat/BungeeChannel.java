@@ -40,8 +40,6 @@ public void onPluginMessageReceived(String channel, Player player, byte[] bytes)
 	ByteArrayDataInput in = ByteStreams.newDataInput(bytes);
 	String subchannel = in.readUTF();
 
-	EonaChat.log("Channel: " + subchannel);
-
 	if (subchannel.equalsIgnoreCase("eonachat"))
 	{
 		short lengh = in.readShort();
@@ -53,12 +51,10 @@ public void onPluginMessageReceived(String channel, Player player, byte[] bytes)
 		try
 		{
 			String from = msgin.readUTF();
-			EonaChat.log(from);
 			String message = msgin.readUTF();
-			EonaChat.log(message);
+			String to = msgin.readUTF();
 
-			EonaMessage msg = new EonaMessage(from, message, null);
-			handleIncomingMessages(msg);
+			printIncomingMessages(new EonaMessage(from, message, to));
 		} catch (IOException e)
 		{
 			EonaChat.log.warning(e.getMessage());
@@ -67,17 +63,19 @@ public void onPluginMessageReceived(String channel, Player player, byte[] bytes)
 }
 
 
-void handleOutGoingMessages(EonaMessage m)
+void sendMessages(EonaMessage m)
 {
 	ByteArrayDataOutput out = ByteStreams.newDataOutput();
-	if (m.getTo() == null)
+	if (m.getTo().equals("ALL"))
 	{
 		out.writeUTF("Forward");
 		out.writeUTF("ALL");
+		EonaChat.log("Sending global message");
 	} else
 	{
 		out.writeUTF("ForwardToPlayer");
 		out.writeUTF(m.getTo());
+		EonaChat.log("Sending private message to " + m.getTo());
 	}
 
 	out.writeUTF("eonachat");
@@ -89,19 +87,21 @@ void handleOutGoingMessages(EonaMessage m)
 	{
 		msgout.writeUTF(m.getFrom());
 		msgout.writeUTF(m.getMessage());
+		msgout.writeUTF(m.getTo());
 	} catch (IOException e)
 	{
 		EonaChat.log.warning(e.getMessage());
 	}
-
-	out.writeShort(msgbytes.toByteArray().length);
-	out.write(msgbytes.toByteArray());
+	byte[] byteArray = msgbytes.toByteArray();
+	out.writeShort(byteArray.length);
+	out.write(byteArray);
 
 	Player from = Bukkit.getPlayer(m.getFrom());
 	if (from == null)
 	{
 		from = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 		if (from != null) from.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+		else EonaChat.log.warning("Message could not be sent, no players online");
 	} else
 	{
 		from.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
@@ -109,9 +109,9 @@ void handleOutGoingMessages(EonaMessage m)
 }
 
 
-private void handleIncomingMessages(EonaMessage m)
+private void printIncomingMessages(EonaMessage m)
 {
-	if (m.getTo() == null)
+	if (m.getTo().equals("ALL"))
 	{
 		for (Player p : Bukkit.getOnlinePlayers())
 		{
@@ -120,9 +120,16 @@ private void handleIncomingMessages(EonaMessage m)
 	} else
 	{
 		Player p = Bukkit.getPlayer(m.getTo());
-		if (p != null)
+		if (p == null)
 		{
-			p.sendMessage("<" + m.getFrom() + "> " + ChatColor.RESET + m.getMessage());
+			sendMessages(new EonaMessage(Bukkit.getServerName(), net.md_5.bungee.api.ChatColor.RED +
+					"Spieler " + m.getTo() + " nicht gefunden!", m.getFrom()));
+		} else
+		{
+			EonaChat.lastChat.put(m.getFrom(), m.getTo());
+			EonaChat.lastChat.put(m.getTo(), m.getFrom());
+			p.sendMessage("<" + m.getFrom() + " -> " + m.getTo() + "> " + ChatColor.RESET + m.getMessage());
+			//TODO Add feedback on success
 		}
 	}
 }
